@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
     // all physics, such as forces should be put here
     private void FixedUpdate()
     {
+        rigidBodyComponent.velocity = new Vector3(horizontalInput, rigidBodyComponent.velocity.y, 0);
+
         if (Physics.OverlapSphere(groundCheckTransform.position, 0.1f, playerMask).Length == 0) 
         {
             return;
@@ -44,8 +46,6 @@ public class Player : MonoBehaviour
             rigidBodyComponent.AddForce(Vector3.up * 5, ForceMode.VelocityChange);
             jumpKeyWasPressed = false;
         }
-
-        rigidBodyComponent.velocity = new Vector3(horizontalInput, rigidBodyComponent.velocity.y, 0);
     }
 
 }
