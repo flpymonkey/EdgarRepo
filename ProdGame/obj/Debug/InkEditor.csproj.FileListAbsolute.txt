@@ -1,0 +1,2 @@
+/Users/eaperches/Documents/UnityProjects/EdgarRepo/ProdGame/obj/Debug/InkEditor.csproj.AssemblyReference.cache
+/Users/eaperches/Documents/UnityProjects/EdgarRepo/ProdGame/obj/Debug/InkEditor.csproj.CoreCompileInputs.cache
