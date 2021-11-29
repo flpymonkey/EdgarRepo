@@ -1,9 +1,9 @@
 ﻿<Properties StartupConfiguration="{99CAA754-9D3C-DE91-3C4E-DDA2EAB5A406}|">
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/MoneyEngine.cs">
     <Files>
-      <File FileName="Assets/Scripts/InkEngine.cs" Line="14" Column="1" />
-      <File FileName="Assets/Scripts/QuitGameOnKeypress.cs" />
-      <File FileName="Assets/Scripts/MoneyEngine.cs" Line="6" Column="2" />
+      <File FileName="Assets/Scripts/InkEngine.cs" Line="108" Column="37" />
+      <File FileName="Assets/Scripts/QuitGameOnKeypress.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/MoneyEngine.cs" Line="17" Column="15" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -11,7 +11,7 @@
           <Node name="ProdGame" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="InkEngine.cs" selected="True" />
+                <Node name="MoneyEngine.cs" selected="True" />
               </Node>
             </Node>
           </Node>
