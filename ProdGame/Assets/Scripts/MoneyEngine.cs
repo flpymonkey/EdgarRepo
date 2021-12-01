@@ -5,23 +5,23 @@ using UnityEngine.UI;
 
 public class MoneyEngine : MonoBehaviour
 {
-    public Text moneyText;
-    public int currentMoney;
+    [SerializeField]
+    private Text moneyText;
+    [SerializeField]
+    private int currentMoney;
 
     // Start is called before the first frame update
     void Start()
     {
         if (PlayerPrefs.HasKey("CurrentMoney"))
         {
+
             currentMoney = PlayerPrefs.GetInt("CurrentMoney");
         } else
         {
             currentMoney = 0;
             PlayerPrefs.SetInt("CurrentMoney", 0);
         }
-
-        moneyText.text = "Money : " + currentMoney;
-        
     }
 
     // Update is called once per frame
@@ -30,17 +30,24 @@ public class MoneyEngine : MonoBehaviour
         
     }
 
-    public void AddMoney(int moneyToAdd)
+    public bool AddMoney(int moneyToAdd)
     {
-        currentMoney += moneyToAdd;
+        currentMoney = currentMoney + moneyToAdd;
         PlayerPrefs.SetInt("CurrentMoney", currentMoney);
-        moneyText.text = moneyText.text = "Money : " + currentMoney;
+        print("Added money! Now you have: " + PlayerPrefs.GetInt("CurrentMoney"));
+        return true;
     }
 
-    public void SubstractMoney(int moneyToSubstract)
+    public bool SubstractMoney(int moneyToSubstract)
     {
-        currentMoney = Mathf.Max(0, moneyToSubstract - moneyToSubstract);
+        if (moneyToSubstract > currentMoney)
+        {
+            print("You do not have enough money!");
+            return false;
+        }
+        currentMoney = Mathf.Max(0, currentMoney - moneyToSubstract);
         PlayerPrefs.SetInt("CurrentMoney", currentMoney);
-        moneyText.text = "Money : " + currentMoney;
+        print("Substracted Money! Now you have: " + PlayerPrefs.GetInt("CurrentMoney"));
+        return true;
     }
 }

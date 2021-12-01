@@ -13,10 +13,20 @@ Surprisingly, the bell above the door suddenly chimes as a couple comes in from 
 -> Coffee_Shop_Opening_Actions
 
 == Coffee_Shop_Opening_Actions ==
+ * [Pickup money change from the counter.] -> Pickup_Change
+ + [Buy some coffee ($5)] -> Buy_Coffee
  * [Approach the familiar student in the corner.]-> Approach_Student
  * [Approach the couple.] -> Approach_Couple
  * [Continue to sit behind the counter and observe the atmosphere.] -> Observe_Atmosphere
  
+== Pickup_Change ==
+# callFunction,addMoney,10
+You picked up $10 
+    -> Coffee_Shop_Opening_Actions
+== Buy_Coffee ==
+# callFunction,substractMoney,5
+You bought some coffee.
+    ->Coffee_Shop_Opening_Actions
 == Approach_Student ==
 You approach the student...
     -> END

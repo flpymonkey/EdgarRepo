@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using System;
 using Ink.Runtime;
+using System.Collections.Generic;
+using System.Linq;
 
 public class InkEngine : MonoBehaviour {
     public static event Action<Story> OnCreateStory;
@@ -37,7 +39,7 @@ public class InkEngine : MonoBehaviour {
 		}
 
 		// Display all the choices, if there are any!
-		if(story.currentChoices.Count > 0) {
+		if (story.currentChoices.Count > 0) {
 			for (int i = 0; i < story.currentChoices.Count; i++) {
 				Choice choice = story.currentChoices [i];
 				Button button = CreateChoiceView (choice.text.Trim ());
@@ -60,6 +62,7 @@ public class InkEngine : MonoBehaviour {
 	void OnClickChoiceButton (Choice choice) {
 		story.ChooseChoiceIndex (choice.index);
 		RefreshView();
+		CheckForTag();
 	}
 
 	// Creates a textbox showing the the line of text
@@ -94,6 +97,45 @@ public class InkEngine : MonoBehaviour {
 		}
 	}
 
+	// Tag Parsing
+	void CheckForTag()
+    {
+		List<string> tags = story.currentTags;
+		if (tags.Count > 0)
+		{
+			foreach (string tag in tags)
+            {
+				ProcessTag(tag);
+            }
+		}
+	}
+
+	void ProcessTag (string tag)
+    {
+		List<string> tagList = tag.Split(',').ToList();
+
+		string action = tagList[0];
+
+		switch (action)
+        {
+			case "callFunction":
+				string functionName = tagList[1];
+				List<string> arguments = tagList.Skip(2).Take(tagList.Count).ToList();
+				switch (functionName)
+                {
+					case "addMoney":
+						moneyEngine.AddMoney(Int32.Parse(arguments[0]));
+						break;
+					case "substractMoney":
+						moneyEngine.SubstractMoney(Int32.Parse(arguments[0]));
+						break;
+                }
+
+				break;
+        }
+    }
+
+
 	[SerializeField]
 	private TextAsset inkJSONAsset = null;
 	public Story story;
@@ -106,4 +148,9 @@ public class InkEngine : MonoBehaviour {
 	private Text textPrefab = null;
 	[SerializeField]
 	private Button buttonPrefab = null;
+
+	// Money Engine
+	[SerializeField]
+	private MoneyEngine moneyEngine = null;
+
 }

@@ -2,3 +2,5 @@ Base path: '/Applications/Unity/Unity.app/Contents', plugins path '/Applications
 Cmd: initializeCompiler
 
 Cmd: shutdown
+
+Quitting shader compiler process
