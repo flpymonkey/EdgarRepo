@@ -1,3 +1,5 @@
+INCLUDE Functions.ink
+
 # theme: dark
 # author: Benjamin Johnson
 
@@ -20,12 +22,17 @@ Surprisingly, the bell above the door suddenly chimes as a couple comes in from 
  * [Continue to sit behind the counter and observe the atmosphere.] -> Observe_Atmosphere
  
 == Pickup_Change ==
-# callFunction,addMoney,10
+~ addMoney(10)
 You picked up $10 
     -> Coffee_Shop_Opening_Actions
 == Buy_Coffee ==
-# callFunction,substractMoney,5
-You bought some coffee.
+~ temp currentMoney = getCurrentMoney()
+{currentMoney >= 5:
+    ~ substractMoney(5)
+    You bought some coffee.
+- else:
+    You do not have enough money
+}
     ->Coffee_Shop_Opening_Actions
 == Approach_Student ==
 You approach the student...

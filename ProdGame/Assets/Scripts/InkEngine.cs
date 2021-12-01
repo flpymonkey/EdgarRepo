@@ -17,6 +17,8 @@ public class InkEngine : MonoBehaviour {
 	// Creates a new Story object with the compiled story which we can then play!
 	void StartStory () {
 		story = new Story (inkJSONAsset.text);
+		functionCaller.setStory(story);
+		functionCaller.BindFunctions();
         if(OnCreateStory != null) OnCreateStory(story);
 		RefreshView();
 	}
@@ -62,7 +64,6 @@ public class InkEngine : MonoBehaviour {
 	void OnClickChoiceButton (Choice choice) {
 		story.ChooseChoiceIndex (choice.index);
 		RefreshView();
-		CheckForTag();
 	}
 
 	// Creates a textbox showing the the line of text
@@ -97,44 +98,6 @@ public class InkEngine : MonoBehaviour {
 		}
 	}
 
-	// Tag Parsing
-	void CheckForTag()
-    {
-		List<string> tags = story.currentTags;
-		if (tags.Count > 0)
-		{
-			foreach (string tag in tags)
-            {
-				ProcessTag(tag);
-            }
-		}
-	}
-
-	void ProcessTag (string tag)
-    {
-		List<string> tagList = tag.Split(',').ToList();
-
-		string action = tagList[0];
-
-		switch (action)
-        {
-			case "callFunction":
-				string functionName = tagList[1];
-				List<string> arguments = tagList.Skip(2).Take(tagList.Count).ToList();
-				switch (functionName)
-                {
-					case "addMoney":
-						moneyEngine.AddMoney(Int32.Parse(arguments[0]));
-						break;
-					case "substractMoney":
-						moneyEngine.SubstractMoney(Int32.Parse(arguments[0]));
-						break;
-                }
-
-				break;
-        }
-    }
-
 
 	[SerializeField]
 	private TextAsset inkJSONAsset = null;
@@ -149,8 +112,7 @@ public class InkEngine : MonoBehaviour {
 	[SerializeField]
 	private Button buttonPrefab = null;
 
-	// Money Engine
 	[SerializeField]
-	private MoneyEngine moneyEngine = null;
+	private FunctionCaller functionCaller = null;
 
 }

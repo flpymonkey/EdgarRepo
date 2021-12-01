@@ -50,4 +50,9 @@ public class MoneyEngine : MonoBehaviour
         print("Substracted Money! Now you have: " + PlayerPrefs.GetInt("CurrentMoney"));
         return true;
     }
+
+    public int GetCurrentMoney()
+    {
+        return currentMoney;
+    }
 }
