@@ -26,6 +26,16 @@ public class FunctionCaller : MonoBehaviour
         story.BindExternalFunction("getCurrentMoney", () => {
             return moneyEngine.GetCurrentMoney();
         }, true);
+
+        story.BindExternalFunction("increaseSkillExperience", (string skillName, int experienceGained) =>
+        {
+            experienceEngine.IncreaseSkillExperience(skillName, experienceGained);
+        }, false);
+
+        story.BindExternalFunction("getSkillCurrentLevel", (string skillName) =>
+        {
+            experienceEngine.GetSkillCurrentLevel(skillName);
+        }, true);
     }
 
 
@@ -33,4 +43,6 @@ public class FunctionCaller : MonoBehaviour
     private Story story;
     [SerializeField]
     MoneyEngine moneyEngine = null;
+    [SerializeField]
+    ExperienceEngine experienceEngine = null;
 }

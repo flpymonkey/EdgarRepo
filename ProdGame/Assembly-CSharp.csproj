@@ -55,9 +55,10 @@
   <ItemGroup>
     <Compile Include="Assets/Scripts/InkEngine.cs" />
     <Compile Include="Assets/Scripts/QuitGameOnKeypress.cs" />
+    <Compile Include="Assets/Scripts/FunctionCaller.cs" />
     <Compile Include="Assets/Scripts/MoneyEngine.cs" />
     <Compile Include="Assets/Scripts/TagParser.cs" />
-    <Compile Include="Assets/Scripts/FunctionCaller.cs" />
+    <Compile Include="Assets/Scripts/ExperienceEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

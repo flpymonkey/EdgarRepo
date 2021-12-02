@@ -1,10 +1,10 @@
 ﻿<Properties StartupConfiguration="{99CAA754-9D3C-DE91-3C4E-DDA2EAB5A406}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/FunctionCaller.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/MoneyEngine.cs">
     <Files>
-      <File FileName="Assets/Scripts/TagParser.cs" Line="1" Column="1" IsPinned="True" />
-      <File FileName="Assets/Scripts/MoneyEngine.cs" Line="54" Column="31" />
-      <File FileName="Assets/Scripts/InkEngine.cs" Line="73" Column="26" />
+      <File FileName="Assets/Scripts/InkEngine.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/FunctionCaller.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ExperienceEngine.cs" Line="10" Column="9" />
+      <File FileName="Assets/Scripts/MoneyEngine.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -12,7 +12,7 @@
           <Node name="ProdGame" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="FunctionCaller.cs" selected="True" />
+                <Node name="MoneyEngine.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -23,7 +23,7 @@
   <MonoDevelop.Ide.ItemProperties.InkEditor PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="9cfc0860-65b7-43ce-895b-3cc57553e0aa" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="76655a26-f0bd-412a-ac49-490c390628d2" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

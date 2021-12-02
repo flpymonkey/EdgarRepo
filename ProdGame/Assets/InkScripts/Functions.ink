@@ -7,3 +7,9 @@ EXTERNAL substractMoney(money)
 EXTERNAL getCurrentMoney()
 === function getCurrentMoney() ===
 ~ return 5
+EXTERNAL increaseSkillExperience(skillName, experienceGained)
+=== function increaseSkillExperience(skillName, experienceGained) ===
+~ return 1
+EXTERNAL getSkillCurrentLevel(skillName)
+=== function getSkillCurrentLevel(skillName) ===
+~ return 1
