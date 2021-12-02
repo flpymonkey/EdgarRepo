@@ -26,7 +26,11 @@ public class ExperienceEngine : MonoBehaviour
 
     private void LevelUp(string skillName)
     {
-        int currentLevel = PlayerPrefs.GetInt(skillName + "Level");
+        int currentLevel = 0;
+        if (PlayerPrefs.HasKey(skillName+"Level"))
+        {
+            currentLevel = PlayerPrefs.GetInt(skillName + "Level");
+        }
         PlayerPrefs.SetInt(skillName + "Level", currentLevel + 1);
         print(skillName + " has leveled up to level " + PlayerPrefs.GetInt(skillName + "Level"));
     }
