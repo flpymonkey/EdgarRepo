@@ -528,6 +528,9 @@ GameObject:
   - component: {fileID: 1366322686}
   - component: {fileID: 1366322685}
   - component: {fileID: 1366322684}
+  - component: {fileID: 1366322688}
+  - component: {fileID: 1366322687}
+  - component: {fileID: 1366322689}
   m_Layer: 0
   m_Name: InkController
   m_TagString: Untagged
@@ -564,6 +567,7 @@ MonoBehaviour:
   textParent: {fileID: 158337431}
   textPrefab: {fileID: 11456674, guid: 4da61e849d122ad4aac93dc06dbc3e21, type: 3}
   buttonPrefab: {fileID: 11455116, guid: 48c7bff32d54b2d40ad2e01e069bfdf9, type: 3}
+  functionCaller: {fileID: 1366322688}
 --- !u!4 &1366322686
 Transform:
   m_ObjectHideFlags: 0
@@ -580,3 +584,43 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1366322687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366322683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b533de14fab4477b037ebd3583e069, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moneyText: {fileID: 0}
+  currentMoney: 0
+--- !u!114 &1366322688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366322683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a3b4f8825cbd4b3d9c15c5d81329e5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moneyEngine: {fileID: 1366322687}
+  experienceEngine: {fileID: 1366322689}
+--- !u!114 &1366322689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366322683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c9328e816dc9409cb66900e6444341b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

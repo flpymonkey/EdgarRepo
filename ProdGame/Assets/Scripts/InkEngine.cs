@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using System;
 using Ink.Runtime;
+using System.Collections.Generic;
+using System.Linq;
 
 public class InkEngine : MonoBehaviour {
 
@@ -29,6 +31,8 @@ public class InkEngine : MonoBehaviour {
 	// Creates a new Story object with the compiled story which we can then play!
 	void StartStory () {
 		story = new Story (inkJSONAsset.text);
+		functionCaller.setStory(story);
+		functionCaller.BindFunctions();
         if(OnCreateStory != null) OnCreateStory(story);
 		RefreshView();
 	}
@@ -51,7 +55,7 @@ public class InkEngine : MonoBehaviour {
 		}
 
 		// Display all the choices, if there are any!
-		if(story.currentChoices.Count > 0) {
+		if (story.currentChoices.Count > 0) {
 			for (int i = 0; i < story.currentChoices.Count; i++) {
 				Choice choice = story.currentChoices [i];
 				Button button = CreateChoiceView (choice.text.Trim ());
@@ -116,4 +120,22 @@ public class InkEngine : MonoBehaviour {
 			GameObject.Destroy (textParent.transform.GetChild (i).gameObject);
 		}
 	}
+
+
+	[SerializeField]
+	private TextAsset inkJSONAsset = null;
+	public Story story;
+
+	[SerializeField]
+	private Canvas canvas = null;
+
+	// UI Prefabs
+	[SerializeField]
+	private Text textPrefab = null;
+	[SerializeField]
+	private Button buttonPrefab = null;
+
+	[SerializeField]
+	private FunctionCaller functionCaller = null;
+
 }

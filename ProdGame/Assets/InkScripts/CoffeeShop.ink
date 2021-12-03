@@ -1,3 +1,5 @@
+INCLUDE Functions.ink
+
 # theme: dark
 # author: Benjamin Johnson
 
@@ -13,10 +15,32 @@ Surprisingly, the bell above the door suddenly chimes as a couple comes in from 
 -> Coffee_Shop_Opening_Actions
 
 == Coffee_Shop_Opening_Actions ==
+ * [Pickup money change from the counter.] -> Pickup_Change
+ + [Watch the tv] -> Watch_Tv
+ + [Buy some coffee ($5)] -> Buy_Coffee
  * [Approach the familiar student in the corner.]-> Approach_Student
  * [Approach the couple.] -> Approach_Couple
  * [Continue to sit behind the counter and observe the atmosphere.] -> Observe_Atmosphere
  
+== Pickup_Change ==
+~ addMoney(10)
+You picked up $10
+    -> Coffee_Shop_Opening_Actions
+    
+== Watch_Tv ==
+~ increaseSkillExperience("Visual Calculus", 10)
+You watch a channel about eastern european detectives
+Gained 10 xp towards <b>Visual Calculus</b>
+    -> Coffee_Shop_Opening_Actions
+== Buy_Coffee ==
+~ temp currentMoney = getCurrentMoney()
+{currentMoney >= 5:
+    ~ substractMoney(5)
+    You bought some coffee.
+- else:
+    You do not have enough money
+}
+    ->Coffee_Shop_Opening_Actions
 == Approach_Student ==
 You approach the student...
     -> END
