@@ -75,8 +75,17 @@ public class InkEngine : MonoBehaviour {
 				});
 			}
 		}
+
+		// Need to offset all text and choices to fit the scroll window
+		float scrollScaleFactor = parentTransform.sizeDelta.y / 2;
+		int childrenCount = textParent.transform.childCount;
+		for (int i = 0; i < childrenCount; i++)
+        {
+			textParent.transform.GetChild(i).GetComponent<RectTransform>().position += new Vector3(0, scrollScaleFactor, 0);
+		}
+
 		// If we've read all the content and there's no choices, the story is finished!
-		else {
+		if (story.currentChoices.Count == 0) {
 			Button choice = CreateChoiceView("End of story.\nRestart?");
 			choice.onClick.AddListener(delegate{
 				StartStory();
@@ -90,19 +99,32 @@ public class InkEngine : MonoBehaviour {
 		RefreshView();
 	}
 
+	// TODO: fix this, this is a bad way to calculate this
+	int _getTextVerticalScaleFromText(string text)
+    {
+		return (text.Length / 35 + 1) * 38;
+	}
+
 	// Creates a textbox showing the the line of text
 	void CreateContentView (string text) {
 		Text storyText = Instantiate (textPrefab) as Text;
 		storyText.text = text;
 		storyText.transform.SetParent (textParent.transform, false);
 
+		// Make the TextBox expand to fit the text
+		HorizontalLayoutGroup layoutGroup = storyText.GetComponent<HorizontalLayoutGroup>();
+		layoutGroup.childForceExpandHeight = false;
+
 		// Set the width of the text to the width of the parent
 		RectTransform parentTransform = textParent.GetComponent<RectTransform>();
 		RectTransform newTextTransform = storyText.GetComponent<RectTransform>();
-		newTextTransform.sizeDelta = new Vector2(parentTransform.sizeDelta.x, newTextTransform.sizeDelta.y);
+		newTextTransform.sizeDelta = new Vector2(parentTransform.sizeDelta.x, _getTextVerticalScaleFromText(text));
 		newTextTransform.position = new Vector3(parentTransform.position.x, parentTransform.position.y - parentTransform.sizeDelta.y, parentTransform.position.z);
 
 		// Add to the height of the parent and add text to the end
+		print("Here!!!!");
+		print(newTextTransform.sizeDelta.y);
+		print(parentTransform.sizeDelta.y);
 		parentTransform.sizeDelta = parentTransform.sizeDelta + new Vector2(0, newTextTransform.sizeDelta.y);
 	}
 
@@ -116,6 +138,8 @@ public class InkEngine : MonoBehaviour {
 		Text choiceText = choice.GetComponentInChildren<Text> ();
 		choiceText.text = text;
 
+		RectTransform newButtonTransform = choice.GetComponent<RectTransform>();
+
 		// Make the button expand to fit the text
 		HorizontalLayoutGroup layoutGroup = choice.GetComponent <HorizontalLayoutGroup> ();
 		layoutGroup.childForceExpandHeight = false;
@@ -123,7 +147,7 @@ public class InkEngine : MonoBehaviour {
 		RectTransform parentTransform = textParent.GetComponent<RectTransform>();
 
 		// Set the position of the button
-		RectTransform newButtonTransform = choice.GetComponent<RectTransform>();
+		newButtonTransform.sizeDelta = new Vector2(parentTransform.sizeDelta.x, newButtonTransform.sizeDelta.y);
 		newButtonTransform.position = new Vector3(parentTransform.position.x, parentTransform.position.y - parentTransform.sizeDelta.y, parentTransform.position.z);
 
 		// Add to the height of the parent and add button to the end
