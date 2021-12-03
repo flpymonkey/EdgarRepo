@@ -6,7 +6,27 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class InkEngine : MonoBehaviour {
-    public static event Action<Story> OnCreateStory;
+
+	[SerializeField]
+	private TextAsset inkJSONAsset = null;
+	public Story story;
+
+	[SerializeField]
+	private Canvas canvas = null;
+
+	[SerializeField]
+	private GameObject textParent = null;
+
+	// UI Prefabs
+	[SerializeField]
+	private Text textPrefab = null;
+	[SerializeField]
+	private Button buttonPrefab = null;
+
+	[SerializeField]
+	private FunctionCaller functionCaller = null;
+
+	public static event Action<Story> OnCreateStory;
 	
     void Awake () {
 		// Remove the default message
@@ -29,7 +49,11 @@ public class InkEngine : MonoBehaviour {
 	void RefreshView () {
 		// Remove all the UI on screen
 		RemoveChildren ();
-		
+
+		// Reset the testParent height
+		RectTransform parentTransform = textParent.GetComponent<RectTransform>();
+		parentTransform.sizeDelta = new Vector2(parentTransform.sizeDelta.x, 0);
+
 		// Read all the content until we can't continue any more
 		while (story.canContinue) {
 			// Continue gets the next line of the story
@@ -51,8 +75,17 @@ public class InkEngine : MonoBehaviour {
 				});
 			}
 		}
+
+		// Need to offset all text and choices to fit the scroll window
+		float scrollScaleFactor = (float) (parentTransform.sizeDelta.y / 1.5);
+		int childrenCount = textParent.transform.childCount;
+		for (int i = 0; i < childrenCount; i++)
+        {
+			//textParent.transform.GetChild(i).GetComponent<RectTransform>().position += new Vector3(0, scrollScaleFactor, 0);
+		}
+
 		// If we've read all the content and there's no choices, the story is finished!
-		else {
+		if (story.currentChoices.Count == 0) {
 			Button choice = CreateChoiceView("End of story.\nRestart?");
 			choice.onClick.AddListener(delegate{
 				StartStory();
@@ -66,53 +99,65 @@ public class InkEngine : MonoBehaviour {
 		RefreshView();
 	}
 
+	// TODO: fix this, this is a bad way to calculate this
+	int _getTextVerticalScaleFromText(string text)
+    {
+		return (text.Length / 40 + 1) * 50;
+	}
+
 	// Creates a textbox showing the the line of text
 	void CreateContentView (string text) {
 		Text storyText = Instantiate (textPrefab) as Text;
 		storyText.text = text;
-		storyText.transform.SetParent (canvas.transform, false);
+		storyText.transform.SetParent (textParent.transform, false);
+
+		// Make the TextBox expand to fit the text
+		HorizontalLayoutGroup layoutGroup = storyText.GetComponent<HorizontalLayoutGroup>();
+		layoutGroup.childForceExpandHeight = false;
+
+		// Set the width of the text to the width of the parent
+		RectTransform parentTransform = textParent.GetComponent<RectTransform>();
+		RectTransform newTextTransform = storyText.GetComponent<RectTransform>();
+		newTextTransform.sizeDelta = new Vector2(parentTransform.sizeDelta.x, _getTextVerticalScaleFromText(text));
+		newTextTransform.position = new Vector3(parentTransform.position.x, parentTransform.position.y - parentTransform.sizeDelta.y, parentTransform.position.z);
+
+		// Add to the height of the parent and add text to the end
+		parentTransform.sizeDelta = parentTransform.sizeDelta + new Vector2(0, newTextTransform.sizeDelta.y);
 	}
 
 	// Creates a button showing the choice text
 	Button CreateChoiceView (string text) {
 		// Creates the button from a prefab
 		Button choice = Instantiate (buttonPrefab) as Button;
-		choice.transform.SetParent (canvas.transform, false);
+		choice.transform.SetParent (textParent.transform, false);
 		
 		// Gets the text from the button prefab
 		Text choiceText = choice.GetComponentInChildren<Text> ();
 		choiceText.text = text;
 
+		RectTransform newButtonTransform = choice.GetComponent<RectTransform>();
+
 		// Make the button expand to fit the text
 		HorizontalLayoutGroup layoutGroup = choice.GetComponent <HorizontalLayoutGroup> ();
 		layoutGroup.childForceExpandHeight = false;
+
+		RectTransform parentTransform = textParent.GetComponent<RectTransform>();
+
+		// Set the position of the button
+		newButtonTransform.sizeDelta = new Vector2(parentTransform.sizeDelta.x, newButtonTransform.sizeDelta.y);
+		newButtonTransform.position = new Vector3(parentTransform.position.x, parentTransform.position.y - parentTransform.sizeDelta.y, parentTransform.position.z);
+
+		// Add to the height of the parent and add button to the end
+		parentTransform.sizeDelta = parentTransform.sizeDelta + new Vector2(0, newButtonTransform.sizeDelta.y);
 
 		return choice;
 	}
 
 	// Destroys all the children of this gameobject (all the UI)
 	void RemoveChildren () {
-		int childCount = canvas.transform.childCount;
+		int childCount = textParent.transform.childCount;
 		for (int i = childCount - 1; i >= 0; --i) {
-			GameObject.Destroy (canvas.transform.GetChild (i).gameObject);
+			GameObject.Destroy (textParent.transform.GetChild (i).gameObject);
 		}
 	}
-
-
-	[SerializeField]
-	private TextAsset inkJSONAsset = null;
-	public Story story;
-
-	[SerializeField]
-	private Canvas canvas = null;
-
-	// UI Prefabs
-	[SerializeField]
-	private Text textPrefab = null;
-	[SerializeField]
-	private Button buttonPrefab = null;
-
-	[SerializeField]
-	private FunctionCaller functionCaller = null;
-
 }
