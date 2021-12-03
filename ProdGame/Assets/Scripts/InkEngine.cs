@@ -4,7 +4,21 @@ using System;
 using Ink.Runtime;
 
 public class InkEngine : MonoBehaviour {
-    public static event Action<Story> OnCreateStory;
+
+	[SerializeField]
+	private TextAsset inkJSONAsset = null;
+	public Story story;
+
+	[SerializeField]
+	private GameObject textParent = null;
+
+	// UI Prefabs
+	[SerializeField]
+	private Text textPrefab = null;
+	[SerializeField]
+	private Button buttonPrefab = null;
+
+	public static event Action<Story> OnCreateStory;
 	
     void Awake () {
 		// Remove the default message
@@ -66,14 +80,23 @@ public class InkEngine : MonoBehaviour {
 	void CreateContentView (string text) {
 		Text storyText = Instantiate (textPrefab) as Text;
 		storyText.text = text;
-		storyText.transform.SetParent (canvas.transform, false);
+		storyText.transform.SetParent (textParent.transform, false);
+
+		// Set the width of the text to the width of the parent
+		RectTransform parentTransform = textParent.GetComponent<RectTransform>();
+		RectTransform newTextTransform = storyText.GetComponent<RectTransform>();
+		newTextTransform.sizeDelta = new Vector2(parentTransform.sizeDelta.x, newTextTransform.sizeDelta.y);
+		newTextTransform.position = new Vector3(parentTransform.position.x, parentTransform.position.y + parentTransform.sizeDelta.y, parentTransform.position.z);
+
+		// Add to the height of the parent and add text to the end
+		parentTransform.sizeDelta = parentTransform.sizeDelta + new Vector2(0, newTextTransform.sizeDelta.y);
 	}
 
 	// Creates a button showing the choice text
 	Button CreateChoiceView (string text) {
 		// Creates the button from a prefab
 		Button choice = Instantiate (buttonPrefab) as Button;
-		choice.transform.SetParent (canvas.transform, false);
+		choice.transform.SetParent (textParent.transform, false);
 		
 		// Gets the text from the button prefab
 		Text choiceText = choice.GetComponentInChildren<Text> ();
@@ -88,22 +111,9 @@ public class InkEngine : MonoBehaviour {
 
 	// Destroys all the children of this gameobject (all the UI)
 	void RemoveChildren () {
-		int childCount = canvas.transform.childCount;
+		int childCount = textParent.transform.childCount;
 		for (int i = childCount - 1; i >= 0; --i) {
-			GameObject.Destroy (canvas.transform.GetChild (i).gameObject);
+			GameObject.Destroy (textParent.transform.GetChild (i).gameObject);
 		}
 	}
-
-	[SerializeField]
-	private TextAsset inkJSONAsset = null;
-	public Story story;
-
-	[SerializeField]
-	private Canvas canvas = null;
-
-	// UI Prefabs
-	[SerializeField]
-	private Text textPrefab = null;
-	[SerializeField]
-	private Button buttonPrefab = null;
 }
