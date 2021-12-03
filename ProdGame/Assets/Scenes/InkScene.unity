@@ -155,8 +155,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 165, y: -217.38316}
-  m_SizeDelta: {x: 330, y: 72.1507}
+  m_AnchoredPosition: {x: 165, y: -217.39995}
+  m_SizeDelta: {x: 330, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &349273039
 GameObject:
@@ -564,6 +564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inkJSONAsset: {fileID: 4900000, guid: df88bb3944cb48846b681b6ef8505900, type: 3}
+  canvas: {fileID: 0}
   textParent: {fileID: 158337431}
   textPrefab: {fileID: 11456674, guid: 4da61e849d122ad4aac93dc06dbc3e21, type: 3}
   buttonPrefab: {fileID: 11455116, guid: 48c7bff32d54b2d40ad2e01e069bfdf9, type: 3}

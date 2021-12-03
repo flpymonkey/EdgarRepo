@@ -12,6 +12,9 @@ public class InkEngine : MonoBehaviour {
 	public Story story;
 
 	[SerializeField]
+	private Canvas canvas = null;
+
+	[SerializeField]
 	private GameObject textParent = null;
 
 	// UI Prefabs
@@ -19,6 +22,9 @@ public class InkEngine : MonoBehaviour {
 	private Text textPrefab = null;
 	[SerializeField]
 	private Button buttonPrefab = null;
+
+	[SerializeField]
+	private FunctionCaller functionCaller = null;
 
 	public static event Action<Story> OnCreateStory;
 	
@@ -43,7 +49,11 @@ public class InkEngine : MonoBehaviour {
 	void RefreshView () {
 		// Remove all the UI on screen
 		RemoveChildren ();
-		
+
+		// Reset the testParent height
+		RectTransform parentTransform = textParent.GetComponent<RectTransform>();
+		parentTransform.sizeDelta = new Vector2(parentTransform.sizeDelta.x, 0);
+
 		// Read all the content until we can't continue any more
 		while (story.canContinue) {
 			// Continue gets the next line of the story
@@ -90,7 +100,7 @@ public class InkEngine : MonoBehaviour {
 		RectTransform parentTransform = textParent.GetComponent<RectTransform>();
 		RectTransform newTextTransform = storyText.GetComponent<RectTransform>();
 		newTextTransform.sizeDelta = new Vector2(parentTransform.sizeDelta.x, newTextTransform.sizeDelta.y);
-		newTextTransform.position = new Vector3(parentTransform.position.x, parentTransform.position.y + parentTransform.sizeDelta.y, parentTransform.position.z);
+		newTextTransform.position = new Vector3(parentTransform.position.x, parentTransform.position.y - parentTransform.sizeDelta.y, parentTransform.position.z);
 
 		// Add to the height of the parent and add text to the end
 		parentTransform.sizeDelta = parentTransform.sizeDelta + new Vector2(0, newTextTransform.sizeDelta.y);
@@ -110,6 +120,15 @@ public class InkEngine : MonoBehaviour {
 		HorizontalLayoutGroup layoutGroup = choice.GetComponent <HorizontalLayoutGroup> ();
 		layoutGroup.childForceExpandHeight = false;
 
+		RectTransform parentTransform = textParent.GetComponent<RectTransform>();
+
+		// Set the position of the button
+		RectTransform newButtonTransform = choice.GetComponent<RectTransform>();
+		newButtonTransform.position = new Vector3(parentTransform.position.x, parentTransform.position.y - parentTransform.sizeDelta.y, parentTransform.position.z);
+
+		// Add to the height of the parent and add button to the end
+		parentTransform.sizeDelta = parentTransform.sizeDelta + new Vector2(0, newButtonTransform.sizeDelta.y);
+
 		return choice;
 	}
 
@@ -120,22 +139,4 @@ public class InkEngine : MonoBehaviour {
 			GameObject.Destroy (textParent.transform.GetChild (i).gameObject);
 		}
 	}
-
-
-	[SerializeField]
-	private TextAsset inkJSONAsset = null;
-	public Story story;
-
-	[SerializeField]
-	private Canvas canvas = null;
-
-	// UI Prefabs
-	[SerializeField]
-	private Text textPrefab = null;
-	[SerializeField]
-	private Button buttonPrefab = null;
-
-	[SerializeField]
-	private FunctionCaller functionCaller = null;
-
 }
