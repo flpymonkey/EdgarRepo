@@ -77,11 +77,11 @@ public class InkEngine : MonoBehaviour {
 		}
 
 		// Need to offset all text and choices to fit the scroll window
-		float scrollScaleFactor = parentTransform.sizeDelta.y / 2;
+		float scrollScaleFactor = (float) (parentTransform.sizeDelta.y / 1.5);
 		int childrenCount = textParent.transform.childCount;
 		for (int i = 0; i < childrenCount; i++)
         {
-			textParent.transform.GetChild(i).GetComponent<RectTransform>().position += new Vector3(0, scrollScaleFactor, 0);
+			//textParent.transform.GetChild(i).GetComponent<RectTransform>().position += new Vector3(0, scrollScaleFactor, 0);
 		}
 
 		// If we've read all the content and there's no choices, the story is finished!
@@ -102,7 +102,7 @@ public class InkEngine : MonoBehaviour {
 	// TODO: fix this, this is a bad way to calculate this
 	int _getTextVerticalScaleFromText(string text)
     {
-		return (text.Length / 35 + 1) * 38;
+		return (text.Length / 40 + 1) * 50;
 	}
 
 	// Creates a textbox showing the the line of text
@@ -122,9 +122,6 @@ public class InkEngine : MonoBehaviour {
 		newTextTransform.position = new Vector3(parentTransform.position.x, parentTransform.position.y - parentTransform.sizeDelta.y, parentTransform.position.z);
 
 		// Add to the height of the parent and add text to the end
-		print("Here!!!!");
-		print(newTextTransform.sizeDelta.y);
-		print(parentTransform.sizeDelta.y);
 		parentTransform.sizeDelta = parentTransform.sizeDelta + new Vector2(0, newTextTransform.sizeDelta.y);
 	}
 
