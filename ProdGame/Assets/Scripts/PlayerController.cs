@@ -6,14 +6,19 @@ public class PlayerController : MonoBehaviour
 {
     private Vector2 target;
 
+    // The example prefab to pen when a collision occurs
+    // TODO we instead want to call and external function to trigger one of many scripts, we dont wnat to store it locally here
     public GameObject inkExamplePrefab;
+
+    // Is movement enabled, we should disabled when a dialog screen is open
+    public bool isEnabled = true;
 
     // Update is called once per frame
     void Update()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Input.GetMouseButtonDown(0))
+        if (isEnabled && Input.GetMouseButtonDown(0))
         {
             target = new Vector2(mousePos.x, mousePos.y);
         }
@@ -23,7 +28,8 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Here!!!!");
+        // TODO need to reeneable when a script is closeds
+        isEnabled = false;
         Instantiate(inkExamplePrefab, new Vector3(0, 0, 0), Quaternion.identity);
     }
 }
