@@ -77,12 +77,8 @@ public class InkEngine : MonoBehaviour {
 		}
 
 		// Need to offset all text and choices to fit the scroll window
-		float scrollScaleFactor = (float) (parentTransform.sizeDelta.y / 1.5);
-		int childrenCount = textParent.transform.childCount;
-		for (int i = 0; i < childrenCount; i++)
-        {
-			//textParent.transform.GetChild(i).GetComponent<RectTransform>().position += new Vector3(0, scrollScaleFactor, 0);
-		}
+		// float scrollScaleFactor = (float) (parentTransform.sizeDelta.y / 1.5);
+		// int childrenCount = textParent.transform.childCount;
 
 		// If we've read all the content and there's no choices, the story is finished!
 		if (story.currentChoices.Count == 0) {
@@ -102,7 +98,7 @@ public class InkEngine : MonoBehaviour {
 	// TODO: fix this, this is a bad way to calculate this
 	int _getTextVerticalScaleFromText(string text)
     {
-		return (text.Length / 40 + 1) * 50;
+		return ((text.Length / 34) + 1) * 45;
 	}
 
 	// Creates a textbox showing the the line of text
@@ -118,7 +114,7 @@ public class InkEngine : MonoBehaviour {
 		// Set the width of the text to the width of the parent
 		RectTransform parentTransform = textParent.GetComponent<RectTransform>();
 		RectTransform newTextTransform = storyText.GetComponent<RectTransform>();
-		newTextTransform.sizeDelta = new Vector2(parentTransform.sizeDelta.x, _getTextVerticalScaleFromText(text));
+		newTextTransform.sizeDelta = new Vector2(parentTransform.sizeDelta.x, parentTransform.sizeDelta.y);
 		newTextTransform.position = new Vector3(parentTransform.position.x, parentTransform.position.y - parentTransform.sizeDelta.y, parentTransform.position.z);
 
 		// Add to the height of the parent and add text to the end
